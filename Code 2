@@ -1,0 +1,84 @@
+#Import
+import os
+import csv
+
+#Filepath
+poll_path = os.path.join("..", "Resources", "election_data.csv")
+
+#Setting list
+number_votes = []
+candidates_list = []
+election_list = {}
+percent_list = []
+Total = 0
+
+
+#open
+with open(poll_path,"r") as csvfile:
+    reader = csv.reader(csvfile, delimiter=',')
+  
+#looping for vote counts and searching for candidate with the most votes
+    for row in reader: 
+        Total +=1 
+        number_votes.append(row[2]) 
+        if row[2] in candidates_list:   
+            continue
+        else: 
+            candidates_list.append(row[2]) 
+    Total-=1 
+for i in range(1,len(candidates_list)):
+    count = 0 
+    for j in range(len(number_votes)):
+        if candidates_list[i]==number_votes[j]:
+            count+=1 
+    election_list[candidates_list[i]] = count
+
+candidates_list.remove(candidates_list[0])
+
+#print to text file
+with open('PyPoll.txt','wt') as f:
+    print("Election Results\n",file=f)
+    print("--------------------\n",file=f)
+
+    print("Total Votes:"+ str(Total),"\n",file=f)
+    print("-----------------------\n",file=f)
+
+    #looping to print each candidate and their results
+    for i in election_list:
+        percentage = (election_list[i]/Total)*100 
+        percent_list.append(percentage)
+        print(((i,round(percentage,3),election_list[i])),"\n",file=f)
+
+    print("------------------------------\n",file=f)
+    
+
+    print("Winner:",(candidates_list[percent_list.index(max(percent_list))]),"\n",file=f)
+    print("------------------------------",file=f)
+
+
+
+
+
+
+ 
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

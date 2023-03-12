@@ -1,0 +1,147 @@
+#Import
+
+import os 
+import csv 
+
+#Path for budget data cvs
+bank_path = os.path.join("..", "Resources", "budget_data.csv") 
+
+#Set variables 
+
+total_month = []
+total_profit = []
+profit_losses_change = [] 
+month_change = []
+
+#Open csv as 
+with open(bank_path,"r") as csvfile: 
+  reader = csv.reader(csvfile, delimiter=',')
+
+  #Remove header
+  header = next(reader)
+
+  #Total months
+  #Insert a all of the months into a list and use the len function to count
+  for row in reader: 
+      total_month.append(row[0])
+      total_profit.append(row[1])
+
+  #Total profits
+  # Insert all profit values into a list, and use the for loop to turn all values into integers 
+  total_profit = [int(x) for x in total_profit]
+  total_profit_sum = sum(total_profit) 
+
+  #Average change
+  # Using iteration in for loop to take the next line subtracting the current line to find change over time
+  for i in range(len(total_profit)-1):
+    profit_losses_change.append(total_profit[i + 1] - total_profit[i])
+
+    total_monthly_change = sum(profit_losses_change)
+    
+    #Max and min to find highest and lowest change in our average change
+    greatest_increase = max(profit_losses_change)
+    greatest_decrease = min(profit_losses_change)
+
+
+  #Set variable to use as a dictionary
+  month_change = total_month
+
+  #Index highest and lowest valyes out of profit_losses_change list
+  #Addition of 1 month associated with change is the following month
+  greatest_increase_month = profit_losses_change.index(greatest_increase) + 1
+  greatest_decrease_month  = profit_losses_change.index(greatest_decrease) + 1
+
+
+average_change = total_monthly_change / (len(profit_losses_change))
+
+total_number_months = str(len(total_month))
+total_all_profits = str(total_profit_sum)
+total_average_change = str((round(average_change,2)))
+
+
+
+
+with open('PyBank.txt','wt') as f:
+  print("Financial Analysis\n",file=f)
+  print("--------------------\n",file=f) 
+  print(("Total Months:" +" " +  total_number_months),"\n",file=f)
+  print(("Total: $" + total_all_profits),"\n",file=f) 
+  print(("Average Change: $" + total_average_change),"\n",file=f)
+  print(f"Greatest Increase in Profits: {month_change[greatest_increase_month]} (${(str(greatest_increase))})\n",file=f)
+  print(f"Greatest Decrease in Profits: {month_change[greatest_decrease_month]} (${(str (greatest_decrease))})",file=f)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+    
+      
+      
+
+
+  
+      
+    
+
+
+   
+
+      
+  
+  
+
+
+
+
+     
+    
+      
+      
+
+
+
+    
+    
+
+
+
+    
+    
+
+ 
+
+      
+
+      
+      
+
+
+  
+        
+
+
+          
+
+  
+
+
+       
+
+
+
+ 
